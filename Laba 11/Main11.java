@@ -1,215 +1,80 @@
 package ua.lpnuai.oop.shegda11;
 
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
+import java.io.*;
+import java.nio.*;
 
-public class Main4 {
+public class Main3 extends Zapys{
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
-        Scanner input = new Scanner(System.in);
-        boolean isTrue;
-        System.out.print("Enter size of your array: ");
-        int size = input.nextInt();
-        int array[] = new int[size], max = array[0], decision, sum = 0, find, temp=0, z = 0;
+        Scanner in = new Scanner(System.in);
 
-        for (int i = 0; i < size; i++) {
-            System.out.print("Enter " + (i+1) + " element: ");
-            array[i] = input.nextInt();
-        }
+        int n;
+        ArrayList<String> list = new ArrayList<String>();
 
-        do {
-            while(true){
-                decision = 0;
-                System.out.println("Pick a number from below: ");
-                System.out.println("1) Parallelised execution");
-                System.out.println("2) Execution obiknnovennoe");
-                System.out.println("3) Compare times of executions");
-                decision = input.nextInt();
-                if(decision == 1 || decision == 2 || decision == 3)
-                    break;
-                System.out.println("Wrong number!");
-            }
-            if(decision == 1) {
+        while (true) {
 
-                System.out.print("Enter element that you would like to find: ");
-                find = input.nextInt();
+            System.out.println("1) Scan file");
+            System.out.println("2) See file");
+            System.out.println("3) Write to file");
+            System.out.println("4) Auto fill");
+            System.out.println("5) Delete file");
+            System.out.println("0) Exit");
 
-                for (int i = 0; i < array.length; i++)
-                {
-                    if (find == array[i]){
-                        System.out.println("Element was found");
-                        break;
-                    }
-                }
+            System.out.println("Enter number from below: ");
 
-                long startTime = System.currentTimeMillis();
+            n = in.nextInt();
 
-                for (int a = 0; a < array.length; a++) {
-                    if (array[a] > max)
-                        max = array[a];
-                }
 
-                //delay();
+            if (n == 1) {
 
-                for( int num : array) {
-                    sum = sum + num;
-                }
-                System.out.println("Sum of elements of array: " + sum);
+                String s;
+                try (BufferedReader br = new BufferedReader(new FileReader("C:\\Games\\test2.txt"))) {
 
-                System.out.print("Sorted Array: ");
-                Arrays.parallelSort(array);
-                for (int i : array)
-                    System.out.print(i + " ");
-
-                System.out.println();
-
-                delay();
-
-                System.out.print("Prefix: ");
-                Arrays.parallelPrefix(array, (x, y) -> x * y);
-                for (int a : array)
-                    System.out.print(a + " ");
-
-                //delay();
-
-                System.out.println();
-                System.out.println("Maximal value: " + max);
-
-                delay();
-
-                long timeSpent = System.currentTimeMillis() - startTime;
-                System.out.println("Programme executed for " + timeSpent / 1000 + " seconds");
-                isTrue = true;
-            }
-            else if (decision == 2){
-                System.out.print("Enter element that you would like to find: ");
-                find = input.nextInt();
-
-                for (int i = 0; i < array.length; i++)
-                {
-                    if (find == array[i]){
-                        System.out.println("Element was found");
-                        break;
-                    }
-                }
-
-                //delay();
-
-                long startTime = System.currentTimeMillis();
-
-                for (int a = 0; a < array.length; a++) {
-                    if (array[a] > max)
-                        max = array[a];
-                }
-
-                delay();
-
-                for( int num : array) {
-                    sum = sum + num;
-                }
-                System.out.println("Sum of elements of array: " + sum);
-
-                //delay();
-
-                System.out.print("Sorted array: ");
-                for (int i = 0; i < array.length; i++) {
-                    for (int j = 1; j < (array.length - i); j++) {
-
-                        if (array[j - 1] > array[j]) {
-                            temp = array[j - 1];
-                            array[j - 1] = array[j];
-                            array[j] = temp;
+                    while ((s = br.readLine()) != null) {
+                        if (!s.isEmpty()) {
+                            list.add(s);
                         }
-
                     }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+            } else if (n == 2) {
+                String s;
+                try (BufferedReader br = new BufferedReader(new FileReader("C:\\Games\\test2.txt"))) {
 
-                //delay();
-
-                for(int a = 0; a < array.length; a++)
-                    System.out.print(array[a] + " ");
-                System.out.println();
-
-                delay();
-
-                System.out.print("Prefix: ");
-                System.out.print(array[z] + " ");
-                do{
-                    array[z] = array[z] * array[z + 1];
-                    System.out.print(array[z] + " ");
-                    z++;
-                }while((z+1) != array.length);
-
-                delay();
-
-                System.out.println();
-                //delay();
-                long timeSpent = System.currentTimeMillis() - startTime;
-                System.out.println("Programme executed for " + timeSpent / 1000 + " seconds");
-                isTrue = true;
-            }
-            else if(decision == 3){
-                long startTime1 = System.currentTimeMillis();
-
-                for (int a = 0; a < array.length; a++) {
-                    if (array[a] > max)
-                        max = array[a];
-                }
-
-                for( int num : array) {
-                    sum = sum + num;
-                }
-
-                Arrays.parallelSort(array);
-
-                Arrays.parallelPrefix(array, (x, y) -> x * y);
-
-                long timeSpent1 = System.currentTimeMillis() - startTime1;
-                long startTime2 = System.currentTimeMillis();
-
-                for (int a = 0; a < array.length; a++) {
-                    if (array[a] > max)
-                        max = array[a];
-                }
-
-                for( int num : array) {
-                    sum = sum + num;
-                }
-
-                for (int i = 0; i < array.length; i++) {
-                    for (int j = 1; j < (array.length - i); j++) {
-
-                        if (array[j - 1] > array[j]) {
-                            temp = array[j - 1];
-                            array[j - 1] = array[j];
-                            array[j] = temp;
+                    while ((s = br.readLine()) != null) {
+                        if (!s.isEmpty()) {
+                            System.out.print(s);
+                            System.out.println(" ");
                         }
-
                     }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-
-                do{
-                    array[z] = array[z] * array[z + 1];
-                    z++;
-                }while((z+1) != array.length);
-
-                long timeSpent2 = System.currentTimeMillis() - startTime2;
-                System.out.println("Difference in time is " + (timeSpent1 - timeSpent2) + " milliseconds");
-                isTrue = true;
+                System.out.println(" ");
+            } else if (n == 3) {
+                Zapys write = new Zapys();
+                write.execute();
             }
-            else{
-                System.out.println("Such command is unsupported!");
-                isTrue = false;
-            }
-        }while (!isTrue);
-    }
+            else if( n == 4){
+                Zapys a = new Zapys();
+                a.autofill();
 
-    private static void delay() {
-        try {
-            Thread.sleep(1000);
-        } catch (java.lang.InterruptedException iex) {
-            System.out.println(iex);
+            }
+            else if( n == 5){
+
+                File f = new File("C2" +
+                        ":\\Games\\test2.txt");
+                f.delete();
+            }
+            else if ( n == 0){
+                System.out.println("Goodbye!");
+                break;
+            }
+
+
         }
     }
 }
